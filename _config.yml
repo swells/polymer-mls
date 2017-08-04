@@ -1,0 +1,22 @@
+# Site settings
+encoding: utf-8
+
+title: Polymer MLServer
+heading: MLServer ❤ Polymer
+tagline: MLServer elements for Polymer.
+
+baseurl: ""
+url: "http://swells.github.io/polymer-mls"
+
+# How to build
+build: "bundle exec jekyll b"
+
+# Build settings
+markdown: kramdown
+
+gems:
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock

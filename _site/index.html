@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Documentation - MLServer Polymer</title>
+  <link rel="stylesheet" href="./assets/main.css?v=5b851ed4f46c7f5f3fb011e7f600eef36b917573">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous" />
+</head>
+
+<body>
+  <section class="page-header">
+    <h1 class="project-name">
+      <a href="http://swells.github.io/polymer-mls">MLServer ❤ Polymer</a>
+    </h1>
+    <h2 class="project-tagline">MLServer elements for Polymer.</h2>        
+    <a href="." class="btn"><i class="fa fa-book"></i> Documentation</a>
+    <a href="http://github.com/swells/polymer-mls" class="btn"><i class="fa fa-github"></i> Github</a>
+  </section>
+
+  <section class="main-content">
+    <h2 id="documentation"><a href="#documentation">Documentation</a></h2>
+
+<p><a href="https://docs.microsoft.com/en-us/r-server/what-is-operationalization">MLServer Operationalization</a> for <a href="https://www.polymer-project.org">Polymer</a>
+Bind operationalization state to properties and dispatch actions from within Polymer Elements.</p>
+
+<p>Polymer is a modern library for creating <a href="https://github.com/w3c/webcomponents">Web Components</a> within an application. MLServer Operationalization refers to the process of publishing R and Python models to Microsoft MLServer in the form of web services and the consumption of these services within client applications to affect business results. Joining the two concepts together allows developers to create powerful and complex analytics frontend applications faster and simpler. This approach allows the components you build with Polymer to be more focused on functionality than the applications state.</p>
+
+<p><small><i class="fa fa-info-circle" aria-hidden="true"></i> <strong><em>Info</em></strong>: This documentation presumes an application has been initialised with <a href="https://github.com/Polymer/polymer-cli"><code class="highlighter-rouge">polymer-cli@next</code></a>.</small><br />
+<small><i class="fa fa-info-circle" aria-hidden="true"></i> <strong><em>Info</em></strong>: This documentation won’t go into specifics of how to use Polymer, for more information on Polymer read their <a href="https://www.polymer-project.org/">documentation</a>.</small></p>
+
+<hr />
+
+<h2 id="install"><a href="#install">Install</a></h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bower install --save polymer-mls
+</code></pre>
+</div>
+
+<hr />
+
+<h2 id="usage"><a href="#usage">Usage</a></h2>
+
+<h3 id="include"><a href="#include">Incude</a></h3>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"import"</span> <span class="na">href=</span><span class="s">"../../bower_components/polymer-mls/polymer-mls.html"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="mls-app"><a href="#mls-app">mls-app</a></h3>
+<p>The <code class="highlighter-rouge">&lt;mls-app&gt;</code> element initializes and configures your connection to MLServer. The app is permanently initialized once attached and should not be dynamically bound.</p>
+
+<p><strong>Example usage:</strong></p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;mls-app</span> <span class="na">host=</span><span class="s">"http://localhost:12800"</span> <span class="na">cors</span><span class="nt">&gt;&lt;/mls-app&gt;</span>
+</code></pre>
+</div>
+<p><strong>Properties:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">host</code>: Defines the MLServer endpoint.</li>
+  <li><code class="highlighter-rouge">cors</code>: Use cross origin resource sharing (cors). Off by default.</li>
+</ul>
+
+<h3 id="mls-auth"><a href="#mls-auth">mls-auth</a></h3>
+<p>The <code class="highlighter-rouge">&lt;mls-auth&gt;</code> element is a wrapper around the MLServer authentication API. It notifies successful authentication, provides user information, and handles different types of authentication including <em>LDAP</em> username / password, and <em>Azure Active Directory</em>.</p>
+
+<p><strong>Example usage:</strong></p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- Authentication LDAP/AD --&gt;</span>
+<span class="nt">&lt;mls-auth</span> <span class="na">username=</span><span class="s">"admin"</span> <span class="na">password=</span><span class="s">"secret"</span><span class="nt">&gt;&lt;/mls-auth&gt;</span>
+
+<span class="c">&lt;!-- Authentication AAD --&gt;</span>
+<span class="nt">&lt;mls-auth</span>
+    <span class="na">authuri=</span><span class="s">"https://login.windows.net"</span>
+    <span class="na">tenant=</span><span class="s">"microsoft.com"</span>
+    <span class="na">client-id=</span><span class="s">"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"</span>
+    <span class="na">resource=</span><span class="s">"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/mls-auth&gt;</span>
+
+<span class="c">&lt;!-- Authentication registration via already authenticated access-token --&gt;</span>
+<span class="nt">&lt;mls-auth</span> <span class="na">access-token=</span><span class="s">""</span><span class="nt">&gt;&lt;/mls-auth&gt;</span>
+
+<span class="c">&lt;!-- Force UI model dialog to enter username/password for Authentication via LDAP/AD --&gt;</span>
+<span class="nt">&lt;mls-auth&gt;&lt;/mls-auth&gt;</span>
+</code></pre>
+</div>
+<p><strong>Properties:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">username</code>: (LDAP) The username.</li>
+  <li><code class="highlighter-rouge">password</code>: (LDAP) The Password.</li>
+  <li><code class="highlighter-rouge">access-token</code>: Support authentication registration via already authenticated access-token</li>
+  <li><code class="highlighter-rouge">authuri</code>: (AAD) The authorize endpoint.</li>
+  <li><code class="highlighter-rouge">tenant</code>: (AAD) Contains an immutable, unique identifier of the directory tenant that issued the token.</li>
+  <li><code class="highlighter-rouge">clientId</code>: (AAD) The Application Id assigned to your app when you registered it with Azure AD.</li>
+  <li><code class="highlighter-rouge">resource</code>: (AAD) The App ID URI of the web API secured resource.</li>
+</ul>
+
+<h3 id="mls-service"><a href="#mls-service">mls-service</a></h3>
+
+<p>The <code class="highlighter-rouge">&lt;mls-service&gt;</code> element is an easy way to interact with a MLServer operationalized service as an object and expose it to the Polymer databinding system.</p>
+
+<p>Any changes to the element’s <code class="highlighter-rouge">inputs</code> properties will trigger a service invocation.</p>
+
+<p><strong>Example usage:</strong></p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;mls-service</span>
+   <span class="na">name=</span><span class="s">"transmission"</span>
+   <span class="na">inputs=</span><span class="s">"hp,wt"</span>
+   <span class="na">outputs=</span><span class="s">"answer"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/mls-service&gt;</span>
+</code></pre>
+</div>
+
+<div class="language-R highlighter-rouge"><pre class="highlight"><code><span class="c1"># -- Assuming a Published service named `transmission` --
+</span><span class="n">manualTransmission</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">hp</span><span class="p">,</span><span class="w"> </span><span class="n">wt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">newdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hp</span><span class="p">,</span><span class="w"> </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wt</span><span class="p">)</span><span class="w">
+    </span><span class="n">answer</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'response'</span><span class="p">)</span><span class="w">
+    </span><span class="n">answer</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+<p><strong>Properties:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">name</code>: The operationalized web service name published on the MLServer.</li>
+  <li><code class="highlighter-rouge">version</code>: (Optional) The operationalized web service version. Default to latest if not provided.</li>
+  <li><code class="highlighter-rouge">inputs</code>: A csv list of input names as defined by the operationalized web service.</li>
+  <li><code class="highlighter-rouge">outputs</code>: A csv list of output names as defined by the operationalized web service.</li>
+  <li><code class="highlighter-rouge">params</code>: (Optional) An object literal that contains service input parameters by name/values. If this property is provided the service will immediately by invoked and the response will be pushed to the callback defined in <code class="highlighter-rouge">on-reponse</code>. <strong>Note:</strong> The attribute must be double quoted JSON <code class="highlighter-rouge">params='{ "name": "value" }'</code>.</li>
+  <li><code class="highlighter-rouge">on-response</code>: (Optional) callback function. This function will be called when <code class="highlighter-rouge">params</code> are provided and the service invocation has completed.</li>
+</ul>
+
+<h3 id="mls-session"><a href="#mls-session">mls-session</a></h3>
+
+<p>The <code class="highlighter-rouge">&lt;mls-session&gt;</code> element is an easy way to create a <em>R</em> or <em>Python</em> session on MLServer and expose it’s remote <em>workspace</em> to the Polymer databinding system.</p>
+
+<p>The <code class="highlighter-rouge">&lt;mls-session&gt;</code> element can work in conjunction with the <code class="highlighter-rouge">&lt;mls-code&gt;</code> element.</p>
+
+<p><strong>Example usage:</strong></p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;mls-session</span> <span class="na">name=</span><span class="s">"my-r-session"</span> <span class="na">runtime=</span><span class="s">"R"</span><span class="nt">&gt;&lt;/mls-session&gt;</span>
+</code></pre>
+</div>
+
+<p><strong>Properties:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">name</code>: A unique session name for referencing.</li>
+  <li><code class="highlighter-rouge">runtime</code>: Defines the session’s runtime type R or Python.</li>
+</ul>
+
+<h3 id="mls-code"><a href="#mls-code">mls-code</a></h3>
+
+<p>The <code class="highlighter-rouge">&lt;mls-code&gt;</code> element is an easy way to execute a block of <em>R</em> or <em>Python</em> code on a remote session within the MLServer and expose it’s remote <em>workspace</em> to the Polymer databinding system.</p>
+
+<p><strong>Example usage:</strong></p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>  <span class="nt">&lt;mls-code</span> 
+    <span class="na">name=</span><span class="s">"faithful"</span>
+    <span class="na">session=</span><span class="s">"my-r-session"</span>
+    <span class="na">inputs=</span><span class="s">"n_breaks,individual_obs,density,bw_adjust"</span>
+    <span class="na">outputs=</span><span class="s">"plot"</span>
+    <span class="na">code=</span><span class="s">"
+       hist(faithful$eruptions,
+            probability = TRUE,
+            breaks = as.numeric(n_breaks),
+            xlab = 'Duration (minutes)',
+            main = 'Geyser eruption duration');
+
+            if (individual_obs) {
+                rug(faithful$eruptions)
+            }
+                  
+            if (density) {
+                dens &lt;- density(faithful$eruptions, adjust = bw_adjust);
+                lines(dens, col = 'blue');
+            }"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/mls-code&gt;</span>
+</code></pre>
+</div>
+
+<p><strong>Properties:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">name</code>: A unique execution name for referencing.</li>
+  <li><code class="highlighter-rouge">session</code>: The name of the already created <em>R</em> or <em>Python</em> session.</li>
+  <li><code class="highlighter-rouge">code</code>: The <em>R</em> or <em>Python</em> code block to be executed on the session.</li>
+  <li><code class="highlighter-rouge">inputs</code>: A csv list of input names as defined by the code block.</li>
+  <li><code class="highlighter-rouge">outputs</code>: A csv list of output names as defined by the code block.</li>
+  <li><code class="highlighter-rouge">params</code>: (Optional) An object literal that contains code block input parameters by name/values. If this property is provided the code block will immediately by executed on the session and the response will be pushed to the callback defined in <code class="highlighter-rouge">on-response</code>. <strong>Note:</strong> The attribute must be double quoted JSON <code class="highlighter-rouge">params='{ "name": "value" }'</code>.</li>
+  <li><code class="highlighter-rouge">on-response</code>: (Optional) callback function. This function will be called when <code class="highlighter-rouge">params</code> are provided and the code execution has completed.</li>
+</ul>
+
+<h2 id="creating-elements"><a href="#creating-elements">Creating Elements</a></h2>
+
+<p>Polymer uses <em>Class Mixins</em> to extend and reuse functionality across Elements. Polymer MLServer uses this techinque to connect any extending Element to a MLServer internal data store.</p>
+
+<p><code class="highlighter-rouge">MLServerMixin</code> is just a Class Mixin that can be used to mix with <code class="highlighter-rouge">Polymer.Element</code> or any other Element within an application. A Class Mixin function takes an internal Class definition, extends the given parent Class and returns a new Class.</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code> <span class="c">&lt;!-- src/demo-app/demo-app.html --&gt;</span>
+
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"import"</span> <span class="na">href=</span><span class="s">"../../bower_components/polymer/polymer.html"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"import"</span> <span class="na">href=</span><span class="s">"polymer-mls.html"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+  <span class="c1">// Use MLServerMixin to mix Polymer.Element into a new Class</span>
+  <span class="kr">class</span> <span class="nx">CheckBoxDemo</span> <span class="kr">extends</span> <span class="nx">MLServerMixin</span><span class="p">(</span><span class="nx">Polymer</span><span class="p">.</span><span class="nx">Element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">static</span> <span class="nx">get</span> <span class="nx">is</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">'checkbox-demo'</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">customElement</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="nx">CheckBoxDemo</span><span class="p">.</span><span class="nx">is</span><span class="p">,</span> <span class="nx">CheckBoxDemo</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">CheckBoxDemo</code> now extends both <code class="highlighter-rouge">Polymer.Element</code> and the underlying Polymer <code class="highlighter-rouge">MLServerMixin</code> Class.</p>
+
+
+    <footer class="site-footer">
+      <span class="site-footer-owner">
+        <a href="http://github.com/swells/polymer-mls">polymer-mls</a> is maintained by <a href="http://github.com/swells">swells</a>.
+      </span>
+      <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+    </footer>
+  </section>
+</body>
+
+</html>
